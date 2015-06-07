@@ -1,0 +1,193 @@
+body{ 
+    margin: 0;
+    font-size: 20px;
+    font-family: sans-serif;
+} 
+
+header {
+    font-size: 30px;
+    height: 20px;
+    padding: 30px;
+    background: #222;
+    color: antiquewhite;
+    margin-bottom: 50px; 
+}
+
+ul li {list-style: none;}
+header a { color: antiquewhite;}
+header a:hover { color: grey;}
+
+.logo {
+    position: relative;
+    top: -60px;
+    margin: 10px;
+}
+.left{ float: left; }
+.right{ float: right;}
+.center{ margin: 0 auto; text-align: center; }
+.half {
+    float: left;
+    width: 40%;
+    padding: 4%;
+}
+
+.one_third {
+    width: 30%;
+    float: left;
+    padding: 10px;
+/*    overflow: scroll;*/
+    height:auto !important; /* real browsers */
+    height:100%; /* IE6: treaded as min-height*/
+
+    min-height:100%; /* real browsers */
+}
+
+.two_thirds {
+    width: 65%;
+    float: right;
+    padding: 10px;
+/*    overflow: scroll;*/
+    min-height: 100%;
+}
+
+.min-five{position: relative; top: -5px;}   
+.left_padding {padding: 20px; float: left;}
+
+
+header form {width: 50%;}
+ 
+#show-hidden-menu {width: 400px; position: relative; top: -70px; left: 50px;}
+#show-hidden-menu img { position: relative; top: 15px;}
+#show-hidden-menu:hover, #show-hidden-form:hover{ cursor: pointer; }
+.hidden_menu{
+    width: 400px;
+    display: inline-block;
+    position: relative;
+    left: 200px;
+    background: #222;
+}
+
+.hidden_menu ul, .hidden_menu, header ul {
+    background: #222;
+    padding: 10px;
+    position: relative;
+    top: -81px;
+    left: 150px;
+}
+
+ .search{position: relative; top: -10px; left: 500px;}
+.search input[type=text]{
+    width: 40%; 
+    border-radius: 5px;
+    padding: 10px;
+}
+.h4_search input[type=text]{width: 90%;}
+
+.search input[type="submit"]{
+    font-family: FontAwesome;
+    content: "&#xf002;";
+/*    color: #666;*/
+    color: antiquewhite;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+}
+.search input[type="submit"]:hover{color: white;}
+
+input[type="submit"]:hover{
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: darkolivegreen;
+    color: antiquewhite;
+}
+
+input[type="submit"]{ 
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: olivedrab;
+    color: antiquewhite;
+}
+
+
+input[type="file"]:hover{
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+/*
+    background-color: darkolivegreen;
+    color: antiquewhite;
+*/
+    color: black;
+}
+
+input[type="file"]{ 
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+/*    background-color: olivedrab;*/
+/*    color: antiquewhite;*/
+    color: black;
+}
+
+#new_pass input[type="password"]{
+    width: 400px;
+}
+
+a {text-decoration: none;  
+}
+ 
+
+.clearfix:after {
+visibility: hidden;
+display: block;
+font-size: 0;
+content: " ";
+clear: both;
+height: 0;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+#inline{display: inline;}
+ 
+#new_username, #new_email, #new_pass {display: none; background: white; padding: 20px;}
+
+.fa-question-circle:hover {cursor: pointer;}
+
+#page {margin: 100px;}
+
+.active { background: blue;}
+ 
+
+/******************************
+        /MEDIA QUERIES
+*******************************/
+
+
+@media(max-width: 1000px) {
+
+    header { 
+    height: 20px;
+    padding: 30px;  
+    margin-bottom: 50px; 
+}
+     
+    
+}
+
+
+
+/*MOBILE DEVICES ONLY*/
+@media only screen and (max-device-width: 800px) {
+  
+
+	}
