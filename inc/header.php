@@ -45,8 +45,7 @@ $(document).ready(function() {
 
      </script>
  
-    <header>
-    
+    <header> 
             <!--   HEADER SEARCH BAR       -->
  
     <form class="search" id="search" action="search.php" method="post">
@@ -64,14 +63,18 @@ $(document).ready(function() {
           <li><a title="Manage Account Settings" href="settings.php?user=<?php echo $_SESSION['user_id'] ?>">Settings</a></li>
         <li><a title="Log Out" href="logout.php">Log Out</a> </li>
       </ul>
-        </span>
-    
-
- 
-
-
-
+        </span> 
     </header>
+         
+    <nav>
+        <ul id="nav">
+            <a href="#"><li><i class="fa fa-comment"></i></li></a>
+            <a href="#"><li><i class="fa fa-users"></i></li></a>
+            <a href="#"><li><i class="fa fa-bell-o"></i></li></a>
+            <a href="#"><li><i class="fa fa-search"></i></li></a> 
+ 
+        </ul>
+    </nav>
           
            
 <div class="clearfix" id="page"> 
