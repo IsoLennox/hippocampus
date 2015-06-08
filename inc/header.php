@@ -55,8 +55,8 @@ $(document).ready(function() {
     </form>  
 
     <span class="logo left"><a href="index.php" title="Hippocampus Home"><i class="fa fa-home"></i></a></span>
-    
-        <div id="show-hidden-menu"><img src="http://lorempixel.com/50/50/people" alt="profile img"> <?php echo $_SESSION['username']; ?></div>
+    <?php $avatar=find_user_by_id($_SESSION['user_id']); ?>
+        <div id="show-hidden-menu"><img src="<?php echo $avatar['avatar']; ?>" alt="profile img"> <?php echo $_SESSION['username']; ?></div>
     <span class="hidden-menu" style="display: none;">
       <ul>
           <li><a title="Your Profile" href="profile.php?user=<?php echo $_SESSION['user_id'] ?>">Profile</a></li>

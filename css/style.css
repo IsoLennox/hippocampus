@@ -58,7 +58,7 @@ header form {width: 50%;}
  
 #show-hidden-menu {width: 400px; position: relative; top: -70px; left: 50px;}
 #show-hidden-menu img { position: relative; top: 15px;}
-#show-hidden-menu:hover, #show-hidden-form:hover{ cursor: pointer; }
+#show-hidden-menu:hover, #show-hidden-form:hover, #show-hidden-addpost:hover{ cursor: pointer; }
 .hidden_menu{
     width: 400px;
     display: inline-block;
@@ -165,7 +165,31 @@ height: 0;
 
 #page {margin: 100px;}
 
-.active { background: blue;}
+
+
+#group_nav li{
+    padding: 5px 10px;
+    border-radius: 5px;
+    
+}
+
+#group_nav li a {color: #943940;}
+
+#group_nav li a:hover{
+    color: black;
+}
+
+.active { background: rgba(160,86,99,.5);}
+#group_nav .active a { color: black; }
+#group_nav .active a:hover { color: white; }
+
+.post_container { 
+    clear: both;
+    margin-bottom: 30px;
+    border: 1px solid lightgrey;
+    min-height: 100px;
+    overflow: hidden;
+}
  
 
 /******************************

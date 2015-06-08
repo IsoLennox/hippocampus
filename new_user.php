@@ -67,12 +67,13 @@ if($first_password===$confirmed_password){
         $username_array= mysqli_fetch_assoc($username_found);
         
         if (empty($username_array)){
+            $avatar=addslashes("http://lorempixel.com/50/50/abstract");
             
             //Username is not taken
               $query  = "INSERT INTO users (";
-    $query .= " email, username, password";
+    $query .= " email, username, password, avatar";
     $query .= ") VALUES (";
-    $query .= " '{$email}', '{$username}', '{$hashed_password}'";
+    $query .= " '{$email}', '{$username}', '{$hashed_password}', '{$avatar}'";
     $query .= ") ";
     $new_user_created = mysqli_query($connection, $query);
             
