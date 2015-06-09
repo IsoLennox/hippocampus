@@ -45,35 +45,66 @@ $(document).ready(function() {
 
      </script>
  
-    <header> 
-            <!--   HEADER SEARCH BAR       -->
+    <header>  
+    <?php $avatar=find_user_by_id($_SESSION['user_id']); ?> 
+   
+        <ul>
+            <a href="profile.php"><li class="left"><img src="<?php echo $avatar['avatar']; ?>" alt="profile img"> <?php echo $_SESSION['username']; ?></li></a>  
+            <a href="logout.php"><li class="right"><i class="fa fa-sign-out"></i></li></a> 
  
-    <form class="search" id="search" action="search.php" method="post">
-        <input name="query" value="" placeholder="Search Users and Memories..." autocomplete="off" name="author" id="author" value="<?php echo $name; ?>" type="text"  />
-        <input type="submit" name="submit" value="&#xf002;" />
-    </form>  
-
-    <span class="logo left"><a href="index.php" title="Hippocampus Home"><i class="fa fa-home"></i></a></span>
-    <?php $avatar=find_user_by_id($_SESSION['user_id']); ?>
-        <div id="show-hidden-menu"><img src="<?php echo $avatar['avatar']; ?>" alt="profile img"> <?php echo $_SESSION['username']; ?></div>
-    <span class="hidden-menu" style="display: none;">
-      <ul>
-          <li><a title="Your Profile" href="profile.php?user=<?php echo $_SESSION['user_id'] ?>">Profile</a></li>
-          <li><a title="Your Profile" href="contacts.php?user=<?php echo $_SESSION['user_id'] ?>">Contacts</a></li>
-          <li><a title="Manage Account Settings" href="settings.php?user=<?php echo $_SESSION['user_id'] ?>">Settings</a></li>
-        <li><a title="Log Out" href="logout.php">Log Out</a> </li>
-      </ul>
-        </span> 
+        </ul>
+        
+        
     </header>
          
     <nav>
+    <?php
+    if(isset($current_page)){ ?>
+        
         <ul id="nav">
-            <a href="#"><li><i class="fa fa-comment"></i></li></a>
-            <a href="#"><li><i class="fa fa-users"></i></li></a>
-            <a href="#"><li><i class="fa fa-bell-o"></i></li></a>
-            <a href="#"><li><i class="fa fa-search"></i></li></a> 
+                
+                <?php if($current_page=="groups"){ ?>
+                 <a class="active" href="index.php"><li><i class="fa fa-comment"></i></li></a>
+                <?php }else{ ?>
+                 <a href="index.php"><li><i class="fa fa-comment"></i></li></a>
+                <?php } ?>
+           
+            
+              
+                <?php if($current_page=="contacts"){ ?>
+                <a class="active" title="Your Contacts" href="contacts.php?user=<?php echo $_SESSION['user_id'] ?>"><li><i class="fa fa-users"></i></li></a>
+                <?php }else{ ?>
+                <a title="Your Contacts" href="contacts.php?user=<?php echo $_SESSION['user_id'] ?>"><li><i class="fa fa-users"></i></li></a>
+                <?php } ?>
+                
+                <?php if($current_page=="activity"){ ?>
+                <a class="active" href="activity.php"><li><i class="fa fa-bell-o"></i></li></a>
+                <?php }else{ ?>
+                <a href="activity.php"><li><i class="fa fa-bell-o"></i></li></a>
+                <?php } ?>
+                
+                
+                <?php if($current_page=="search"){ ?>
+                <a class="active" href="search.php"><li><i class="fa fa-search"></i></li></a> 
+                <?php }else{ ?>
+                 <a href="search.php"><li><i class="fa fa-search"></i></li></a> 
+                <?php } ?>
+             
+        </ul>
+   
+    
+  <?php }else{ ?>
+         <ul id="nav">
+            <a href="index.php"><li><i class="fa fa-comment"></i></li></a> 
+            <a title="Your Contacts" href="contacts.php?user=<?php echo $_SESSION['user_id'] ?>"><li><i class="fa fa-users"></i></li></a>
+            <a href="activity.php"><li><i class="fa fa-bell-o"></i></li></a>
+            <a href="search.php"><li><i class="fa fa-search"></i></li></a> 
  
         </ul>
+        <?php
+    }
+?>
+
     </nav>
           
            

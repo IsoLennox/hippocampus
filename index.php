@@ -67,68 +67,7 @@ elseif(isset($_POST['add_post'])){
 ?>
  
 <section class="one_third">
-    <h3>Groups<span class="right" id="show-hidden-form"><i class="fa fa-plus-circle"></i> New Group</span></h3>
-    
-        
-    <form class="hidden-form" style="display: none;" method="POST" enctype="multipart/form-data">  
-        <label for="name">Group Name</label>
-        <input type="text" name="name" placeholder="Group Name"><br/>
-<!-- ADD AVATAR FUNCTIONALITY LATER
-        <label for="image">Upload a group avatar</label>
-        <input type="file" name="image" id="fileToUpload"><br/>
--->
-        <input type="submit" value="Create Group" name="add_group">
-    </form>
-    
-       <?php
-//GET ALL GROUPS USER IS IN
-    $get_my_groups .= "SELECT * FROM user_group WHERE user_id={$_SESSION['user_id']}";
-    $groups_found= mysqli_query($connection, $get_my_groups);
 
-    if ($groups_found) {
-        echo "<ul id=\"group_nav\">";
-        echo "<li><a href=\"index.php\">Activity</a></li>";
-        foreach($groups_found as $group_found){ 
-             //GET GROUP DETAILS
-                $show_groups = "SELECT * FROM groups WHERE id={$group_found['group_id']}";
-                $groups= mysqli_query($connection, $show_groups);
-
-                if ($groups) {
-                    foreach($groups as $group){ 
-                        
-                        if(isset($_GET['group'])){
-                            $group_on=$_GET['group'];
-                            if($group_on==$group['id']){
-                                //SHOW ICONS IF GROUP IS SELECTED
-                                $active="active";
-                                if($_SESSION['user_id']==$group['created_by']){
-                                    //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
-                                $leave=" <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$group_on."&delete\"><i class=\"fa fa-trash-o\"></i></a>";
-                                $actions="<a href=\"\"><i class=\"fa fa-pencil\"></i></a>".$leave;
-                                }else{
-                                $leave=" <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$group_on."&leave\"><i class=\"fa fa-sign-out\"></i></a>";
-                                $actions="";
-                                }
-                                 
-                            }else{ 
-                                $active="";
-                                $actions=""; 
-                            }//end see if group is selected
-                            
-                        }
-                        echo "<li class=\"$active\"><a href=\"index.php?group=".$group['id']."\">".$group['name']."</a><span class=\"right\"> ".$actions."</span></li>";
-                    }//END DISPLAY GROUP DETAILS
-                }//END GET GROUP DETAILS
-        }//END LOOP THROUGH GROUPS
-        echo "</ul>";
-    }else{
-        echo "You have no groups! Create one now! Then, You can invite members to join your group!";
-    }//END FIND GROUPS USER IS IN
-
-
-
-    
-    ?> 
 
 </section>
 
@@ -143,24 +82,24 @@ elseif(isset($_POST['add_post'])){
 <!-- ****  -->
 
 
-
-
-
-<section class="two_thirds">
+ 
    
    <?php
 
 //GET GROUP ID CHOSEN, ELSE SHOW FEED FROM ALL GROUPS USER IS IN
 if(isset($_GET['group'])){
+    
+     
      
         //GET GROUP NAME
     $this_group .= "SELECT * FROM groups WHERE id={$_GET['group']}";
     $group_details= mysqli_query($connection, $this_group);
     if ($group_details) {
         $group_details_array=mysqli_fetch_assoc($group_details);       
-        $group_name=$group_details_array['name'];
+        $group_name="<a href=\"index.php\"><i class=\"fa fa-arrow-left\"> </i></a> ".$group_details_array['name'];
+        $created_by=$group_details_array['created_by'];
     }else{
-        $group_name="Undefined";
+        $group_name="<a href=\"index.php\"><i class=\"fa fa-arrow-left\"> </i></a> Undefined";
     }
     
     
@@ -197,6 +136,8 @@ if(isset($_GET['group'])){
       }
     
     }elseif(isset($_GET['members'])){
+        
+        echo "&laquo; Back to Posts";
         
         //INVITE MEMBERS TO THIS GROUP
         echo "<h1>Members of ".$group_name."</h1>";
@@ -279,11 +220,25 @@ if(isset($_GET['group'])){
         foreach($group_users as $user){
             $num_users++;
         }
-        $num_users="<a href=\"index.php?group=".$group_on."&members\">".$num_users." Members</a>";  
+        $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." Members</a>";  
     } ?>
     
 
     <h1><?php echo $group_name; ?><span class="right"><?php echo $num_users; ?></span></h1>
+    <?php
+       
+ 
+            if($_SESSION['user_id']==$created_by){
+                //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
+                echo " <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$_GET['group']."&delete\"><i class=\"fa fa-trash-o\"></i></a>";
+                echo "<a href=\"\"><i class=\"fa fa-pencil\"></i></a>";
+            }else{
+                echo " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
+            }
+
+     
+      
+        ?>
      
     <h3 id="show-hidden-addpost"><i class="fa fa-plus-circle"></i> New Post</h3>
     <form class="hidden-addpost" style="display: none;" method="POST" enctype="multipart/form-data">  
@@ -329,58 +284,53 @@ if(isset($_GET['group'])){
     
     
     }//end check if this is viewing or deleting group
-}else{ ?>
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    <h1>Activity</h1>
-    <ul>
-<!--        <li>New group invitations</li>-->
-        <?php
-        $get_reuests .= "SELECT * FROM contacts WHERE sent_to={$_SESSION['user_id']} AND accepted=0";
-        $request_found= mysqli_query($connection, $get_reuests);
-        $num_reuests=mysqli_num_rows($request_found);
-//        if ($request_found) {
-        if ($num_reuests>=1) {
-              
-            echo "<h2>New Friend Requests</h2>";
-            foreach($request_found as $user){ 
-                
-            if($_SESSION['user_id']==$user['user1']){
-                $contact_id=$user['user2'];
-            }else{
-                $contact_id=$user['user1'];
-            }  
-                $contact_details=find_user_by_id($contact_id);
-                echo "<a href=\"profile.php?user=".$contact_details['id']."\">".$contact_details['username']."</a> <a href=\"profile.php?user=".$contact_details['id']."&accept\">Accept</a> <a href=\"profile.php?user=".$contact_details['id']."&remove=".$contact_details['id']."\">Deny</a>";
-            }
-        }
+}else{ 
+//    Show Group names
+    ?>
+    
+        <h3>Groups<span class="right" id="show-hidden-form"><i class="fa fa-plus-circle"></i> New Group</span></h3>
+    
         
-        ?>
-<!--
-        <li>New Friend Requests/Unfriended by whom/Removed from groups by whom</li>
-        <li>Latest Post in each of your groups</li>
+    <form class="hidden-form" style="display: none;" method="POST" enctype="multipart/form-data">  
+        <label for="name">Group Name</label>
+        <input type="text" name="name" placeholder="Group Name"><br/>
+<!-- ADD AVATAR FUNCTIONALITY LATER
+        <label for="image">Upload a group avatar</label>
+        <input type="file" name="image" id="fileToUpload"><br/>
 -->
-    </ul>
-<?php
+        <input type="submit" value="Create Group" name="add_group">
+    </form>
+    
+       <?php
+//GET ALL GROUPS USER IS IN
+    $get_my_groups .= "SELECT * FROM user_group WHERE user_id={$_SESSION['user_id']}";
+    $groups_found= mysqli_query($connection, $get_my_groups);
+
+    if ($groups_found) {
+        echo "<ul id=\"group_nav\">";
+        echo "<li><a href=\"index.php\">Activity</a></li>";
+        foreach($groups_found as $group_found){ 
+             //GET GROUP DETAILS
+                $show_groups = "SELECT * FROM groups WHERE id={$group_found['group_id']}";
+                $groups= mysqli_query($connection, $show_groups);
+
+                if ($groups) {
+                    foreach($groups as $group){  
+                        echo "<li><a href=\"index.php?group=".$group['id']."\">".$group['name']."</a></li>";
+                    }//END DISPLAY GROUP DETAILS
+                }//END GET GROUP DETAILS
+        }//END LOOP THROUGH GROUPS
+        echo "</ul>";
+    }else{
+        echo "You have no groups! Create one now! Then, You can invite members to join your group!";
+    }//END FIND GROUPS USER IS IN
+
+
+
+    
 }
-
 ?>
-
  
-</section>
-        
-        
-        
-        
         
         
       

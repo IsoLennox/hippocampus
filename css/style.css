@@ -13,6 +13,10 @@ header {
 /*    margin-bottom: 50px; */
 }
 
+header img {max-height: 30px;}
+
+img{max-height: 100px; max-width: 100px;}
+
 ul li {list-style: none;}
 header a { color: antiquewhite;}
 header a:hover { color: grey;}
@@ -27,7 +31,8 @@ nav {
     height: 87px;
     width: 100%;
     position: relative;
-    left: -118px;
+    left: -40px;
+    top: -26px;
 }
 
 #nav .fa {
@@ -35,7 +40,7 @@ nav {
     color: black;
 }
  
-
+ 
 #nav a{
     display: table-cell;
     height: 87px;
@@ -52,12 +57,110 @@ nav {
     background: whitesmoke;
     color: #ddd;
 }
+ 
 
-.logo {
+
+
+#show-hidden-menu {width: 400px; position: relative; top: -70px; left: 50px;}
+#show-hidden-menu img { position: relative; top: 15px;}
+#show-hidden-menu:hover, #show-hidden-form:hover, #show-hidden-addpost:hover{ cursor: pointer; }
+
+.hidden_menu{
+    width: 400px;
+    display: inline-block;
     position: relative;
-    top: -60px;
-    margin: 10px;
+    left: 200px;
+    background: #222;
 }
+
+
+
+header ul {
+    background: #222;
+    padding: 10px;
+    position: relative;
+  top: -51px;
+  left: 0;
+}
+
+
+.active{
+    border-bottom: 5px solid black;
+}
+
+
+
+ 
+
+.clearfix:after {
+visibility: hidden;
+display: block;
+font-size: 0;
+content: " ";
+clear: both;
+height: 0;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+
+ 
+#new_username, #new_email, #new_pass,#new_avatar,#new_content {display: none; background: white; padding: 20px;}
+
+.fa-question-circle:hover {cursor: pointer;}
+
+#page {
+    background: #eee;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px;
+    padding-top: 50px;
+    position: relative;
+    top: -65px;
+}
+
+
+
+#group_nav li{
+    padding: 5px 10px;
+    border-radius: 5px;
+    
+}
+
+#group_nav li a {color: #943940;}
+
+#group_nav li a:hover{
+    color: black;
+}
+
+.active { background: rgba(160,86,99,.5);}
+#group_nav .active a { color: black; }
+#group_nav .active a:hover { color: white; }
+
+.post_container { 
+    clear: both;
+    margin-bottom: 30px;
+    border: 1px solid lightgrey;
+    min-height: 100px;
+    overflow: hidden;
+    background: white;
+}
+
+
+
+
+
+
+/******************************
+        /ELEMENTS
+*******************************/
+
+
 .left{ float: left; }
 .right{ float: right;}
 .center{ margin: 0 auto; text-align: center; }
@@ -65,6 +168,12 @@ nav {
     float: left;
     width: 40%;
     padding: 4%;
+}
+
+.results {
+  clear: both;
+  border-bottom: 1px solid;
+  padding: 10px;
 }
 
 .one_third {
@@ -82,7 +191,7 @@ nav {
     width: 65%;
     float: right;
     padding: 10px;
-/*    overflow: scroll;*/
+      word-wrap: break-word;
     min-height: 100%;
 }
 
@@ -90,30 +199,14 @@ nav {
 .left_padding {padding: 20px; float: left;}
 
 
-header form {width: 50%;}
- 
-#show-hidden-menu {width: 400px; position: relative; top: -70px; left: 50px;}
-#show-hidden-menu img { position: relative; top: 15px;}
-#show-hidden-menu:hover, #show-hidden-form:hover, #show-hidden-addpost:hover{ cursor: pointer; }
-.hidden_menu{
-    width: 400px;
-    display: inline-block;
-    position: relative;
-    left: 200px;
-    background: #222;
-}
+#inline{display: inline;}
 
-.hidden_menu ul, .hidden_menu, header ul {
-    background: #222;
-    padding: 10px;
-    position: relative;
-    top: -81px;
-    left: 150px;
-}
 
- .search{position: relative; top: -10px; left: 500px;}
+
+
+
 .search input[type=text]{
-    width: 40%; 
+    width: 90%; 
     border-radius: 5px;
     padding: 10px;
 }
@@ -123,7 +216,7 @@ header form {width: 50%;}
     font-family: FontAwesome;
     content: "&#xf002;";
 /*    color: #666;*/
-    color: antiquewhite;
+    color: black;
     background: transparent;
     border: none;
     font-size: 20px;
@@ -175,62 +268,15 @@ input[type="file"]{
 
 a {text-decoration: none;  
 }
- 
-
-.clearfix:after {
-visibility: hidden;
-display: block;
-font-size: 0;
-content: " ";
-clear: both;
-height: 0;
-}
-
-.clearfix {display: inline-block;}
-
-/* Hides from IE-mac \*/
-* html .clearfix {height: 1%;}
-.clearfix {display: block;}
-/* End hide from IE-mac */
-
-#inline{display: inline;}
- 
-#new_username, #new_email, #new_pass {display: none; background: white; padding: 20px;}
-
-.fa-question-circle:hover {cursor: pointer;}
-
-#page {
-    background: #eee;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px;
-}
 
 
 
-#group_nav li{
-    padding: 5px 10px;
-    border-radius: 5px;
-    
-}
 
-#group_nav li a {color: #943940;}
 
-#group_nav li a:hover{
-    color: black;
-}
 
-.active { background: rgba(160,86,99,.5);}
-#group_nav .active a { color: black; }
-#group_nav .active a:hover { color: white; }
 
-.post_container { 
-    clear: both;
-    margin-bottom: 30px;
-    border: 1px solid lightgrey;
-    min-height: 100px;
-    overflow: hidden;
-}
+
+
  
 
 /******************************
