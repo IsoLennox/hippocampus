@@ -81,8 +81,10 @@ if(isset($_GET['add'])){
         $profile_array=mysqli_fetch_assoc($result);
         
         $content=$profile_array['profile_content'];
+        $avatar=$profile_array['avatar'];
+        if(empty($avatar)){
         $avatar="http://lorempixel.com/150/150/cats";
-
+        }
 ?>
  
     <h2> <?php echo $username; ?>'s Profile </h2>
