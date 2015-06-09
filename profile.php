@@ -96,7 +96,7 @@ if(isset($_GET['add'])){
 <?php
 
 if($user_id==$_SESSION['user_id']){
-    echo "<br/><span class=\"right\"><a href=\"edit_profile.php\"><i class=\"fa fa-pencil\"></i> Edit Profile</a></span><br/>";
+    echo "<br/><span class=\"right\"><a href=\"settings.php\"><i class=\"fa fa-cog\"></i> Settings</a></span><br/>";
 }else{
     
     $contact_query  = "SELECT * FROM contacts WHERE (user1={$_SESSION['user_id']} AND user2={$user_id}) OR (user2={$_SESSION['user_id']} AND user1={$user_id}) LIMIT 1";  

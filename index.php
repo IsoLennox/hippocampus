@@ -1,5 +1,7 @@
-<?php include("inc/header.php"); ?>
-<?php
+<?php 
+$current_page="groups";
+include("inc/header.php"); 
+
 
 if(isset($_POST['add_group'])){
     //CREATE NEW GROUP
@@ -18,7 +20,8 @@ if(isset($_POST['add_group'])){
             $group_array=mysqli_fetch_assoc($group_found);
             
              //INSERT USER INTO USER_GROUPS
-            $new_user_group .= "INSERT INTO user_group (user_id, group_id) VALUES ( {$_SESSION['user_id']}, {$group_array['id']} )";
+            $group_avatar="http://lorempixel.com/100/100/technics";
+            $new_user_group .= "INSERT INTO user_group (user_id, group_id, avatar) VALUES ( {$_SESSION['user_id']}, {$group_array['id']}, '{$group_avatar}' )";
             $user_group_added = mysqli_query($connection, $new_user_group);
 
             if ($user_group_added) {
@@ -39,8 +42,7 @@ if(isset($_POST['add_group'])){
         redirect_to("index.php");
         
     }//END CREATE GROUP
-}
-elseif(isset($_POST['add_post'])){
+}elseif(isset($_POST['add_post'])){
     //CREATE NEW POST IN GROUP
     
     $content=addslashes($_POST['content']);
@@ -66,6 +68,7 @@ elseif(isset($_POST['add_post'])){
 
 ?>
  
+<<<<<<< HEAD
 <section class="one_third">
 
 
@@ -73,6 +76,9 @@ elseif(isset($_POST['add_post'])){
 
 
 
+=======
+ 
+>>>>>>> a064083de681157d2b3e148065911f3670463bbf
 
 
 
@@ -89,7 +95,11 @@ elseif(isset($_POST['add_post'])){
 //GET GROUP ID CHOSEN, ELSE SHOW FEED FROM ALL GROUPS USER IS IN
 if(isset($_GET['group'])){
     
+<<<<<<< HEAD
     echo "<a href=\"index.php\">&laquo; Groups</a>";
+=======
+     
+>>>>>>> a064083de681157d2b3e148065911f3670463bbf
      
         //GET GROUP NAME
     $this_group .= "SELECT * FROM groups WHERE id={$_GET['group']}";
@@ -98,6 +108,14 @@ if(isset($_GET['group'])){
         $group_details_array=mysqli_fetch_assoc($group_details);       
         $group_name=$group_details_array['name'];
         $created_by=$group_details_array['created_by'];
+<<<<<<< HEAD
+=======
+        $avatar=$group_details_array['avatar'];
+        if(empty($avatar)){
+            $avatar="http://lorempixel.com/100/100/abstract";
+        }
+        
+>>>>>>> a064083de681157d2b3e148065911f3670463bbf
     }else{
         $group_name="Undefined";
     }
@@ -107,23 +125,38 @@ if(isset($_GET['group'])){
     
     //SPECIAL ACTIONS
     
-    if(isset($_GET['delete'])){
-    //DELETE GROUP
-    ?>
-       <h2>Deleting <?php echo $group_name; ?></h2>
-       <span class="one_third">
-        <form action="delete.php" method="POST">
-            <p>Please enter your password</p>
-            <input type="hidden" name="group_id" value="<?php echo $_GET['group'] ?>"><br/>
-            <input type="password" name="password" placeholder="Password"><br/>
-            <input type="submit" name="group" value="Delete" >
-        </form>
-        </span>
-        <span class="two_thirds">
-            <p># Users will be kicked out</p>
-            <p># Posts Will be deleted</p>
-        </span>
-    <?php
+    if(isset($_GET['edit'])){
+        
+        echo "<h1><a href=\"index.php?group=".$group_details_array['id']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_details_array['name']."</a></h1>";
+        echo "Edit name, avatar, give admin rights away";
+        echo "<img src=\"".$avatar."\" alt=\"Group Avatar\" />";
+        
+       
+        echo "<div class=\"red\"><h3>Danger Zone</h3>";
+        if(isset($_GET['delete'])){
+        //DELETE GROUP
+        ?>
+           <h3>Delete This Group</h3>
+           <span class="one_third">
+            <form action="delete.php" method="POST">
+                <p>Please enter your password</p>
+                <input type="hidden" name="group_id" value="<?php echo $_GET['group'] ?>"><br/>
+                <input type="password" name="password" placeholder="Password"><br/>
+                <input type="submit" name="group" value="Delete" >
+                <a href="index.php?group=<?php echo $group_details_array['id']; ?>&edit">Cancel</a>
+            </form>
+            </span>
+            <span class="two_thirds">
+                <p># Users will be kicked out</p>
+                <p># Posts Will be deleted</p>
+            </span>
+            </div>
+        <?php
+        }else{
+            
+            echo " <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$_GET['group']."&edit&delete\"><i class=\"fa fa-trash-o\"></i> Delete this group</a></div>";
+        }//END DELETE
+        
     }elseif(isset($_GET['leave'])){
     //DELETE GROUP
    
@@ -136,14 +169,15 @@ if(isset($_GET['group'])){
       }
     
     }elseif(isset($_GET['members'])){
+             
         
         echo "&laquo; Back to Posts";
         
         //INVITE MEMBERS TO THIS GROUP
-        echo "<h1>Members of ".$group_name."</h1>";
+        echo "<h1><a href=\"index.php?group=".$_GET['group']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_name."</a></h1>";
         
         
-        echo "<span class=\"half\"><h2>Members in this Group</h2>";
+        echo "<span class=\"half\"><h2>Members</h2>";
         //GET GROUP MEMBERS
         $get_users .= "SELECT * FROM user_group WHERE group_id={$_GET['group']}";
         $group_users= mysqli_query($connection, $get_users);
@@ -167,7 +201,7 @@ if(isset($_GET['group'])){
         
         echo "<span class=\"half\"><h2>Invite</h2>";
                 //GET CONTACTS
-        $get_contacts .= "SELECT * FROM contacts WHERE (contact1={$_SESSION['user_id']} OR contact2={$_SESSION['user_id']}) AND accepted=1";
+        $get_contacts .= "SELECT * FROM contacts WHERE (user1={$_SESSION['user_id']} OR user2={$_SESSION['user_id']}) AND accepted=1";
         $group_contacts= mysqli_query($connection, $get_contacts);
         if ($group_contacts) {
             echo "<ul>";
@@ -220,10 +254,31 @@ if(isset($_GET['group'])){
         foreach($group_users as $user){
             $num_users++;
         }
+<<<<<<< HEAD
         $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." Members</a>";  
     } ?>
+=======
+        $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." <i class=\"fa fa-users\"></i></a>";  
+    } 
     
+>>>>>>> a064083de681157d2b3e148065911f3670463bbf
+    
+       if($_SESSION['user_id']==$created_by){
+                //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
+                $can_edit= "<a href=\"index.php?group=".$_GET['group']."&edit\"><i class=\"fa fa-pencil\"></i></a>";
+                $can_leave="";
+            }else{
+                $can_edit="";
+                $can_leave= " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
+            }  ?> 
+    <h1><?php echo $group_name." ".$can_edit; ?> <span class="right group_actions"><?php echo $num_users." ".$can_leave;  ?> 
+    </span></h1>
+    <?php
+       
+ 
+         
 
+<<<<<<< HEAD
     <h1><?php echo $group_name; ?><span class="right"><?php echo $num_users; ?></span></h1>
     <?php
        
@@ -236,6 +291,8 @@ if(isset($_GET['group'])){
                 echo " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
             }
 
+=======
+>>>>>>> a064083de681157d2b3e148065911f3670463bbf
      
       
         ?>
@@ -255,16 +312,17 @@ if(isset($_GET['group'])){
     <?php 
     //DETERMINE POST STYLE
     if(!isset($_GET['grid'])){ ?>
-    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>&grid"><i class="fa fa-picture-o"></i></a></span>
+    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>&grid"><i class="fa fa-2x fa-picture-o"></i></a></span>
     <?php
     $get_posts .= "SELECT * FROM posts WHERE group_id={$_GET['group']} ORDER BY id DESC";
      }else{ ?>
-    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>"><i class="fa fa-bars"></i></a></span>
+    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>"><i class="fa fa-2x fa-bars"></i></a></span>
     <?php   
     $get_posts .= "SELECT * FROM posts WHERE group_id={$_GET['group']} AND image!='' ORDER BY id DESC";   } ?>
     
      
-    <br/><hr/><br/>
+    <br>
+    <br>
 <!--    CHOOSE GROUP, UPLOAD PHOTO, SAY SOMETHING-->
     
     <?php
@@ -294,10 +352,6 @@ if(isset($_GET['group'])){
     <form class="hidden-form" style="display: none;" method="POST" enctype="multipart/form-data">  
         <label for="name">Group Name</label>
         <input type="text" name="name" placeholder="Group Name"><br/>
-<!-- ADD AVATAR FUNCTIONALITY LATER
-        <label for="image">Upload a group avatar</label>
-        <input type="file" name="image" id="fileToUpload"><br/>
--->
         <input type="submit" value="Create Group" name="add_group">
     </form>
     
@@ -305,10 +359,10 @@ if(isset($_GET['group'])){
 //GET ALL GROUPS USER IS IN
     $get_my_groups .= "SELECT * FROM user_group WHERE user_id={$_SESSION['user_id']}";
     $groups_found= mysqli_query($connection, $get_my_groups);
+ 
 
     if ($groups_found) {
-        echo "<ul id=\"group_nav\">";
-        echo "<li><a href=\"index.php\">Activity</a></li>";
+        echo "<ul id=\"group_nav\">"; 
         foreach($groups_found as $group_found){ 
              //GET GROUP DETAILS
                 $show_groups = "SELECT * FROM groups WHERE id={$group_found['group_id']}";
@@ -316,7 +370,7 @@ if(isset($_GET['group'])){
 
                 if ($groups) {
                     foreach($groups as $group){  
-                        echo "<li><a href=\"index.php?group=".$group['id']."\">".$group['name']."</a></li>";
+                        echo "<li><a href=\"index.php?group=".$group['id']."\"><img src=\"".$group['avatar']."\" alt=\"Group Avatar\" /> ".$group['name']."</a></li>";
                     }//END DISPLAY GROUP DETAILS
                 }//END GET GROUP DETAILS
         }//END LOOP THROUGH GROUPS
@@ -324,9 +378,7 @@ if(isset($_GET['group'])){
     }else{
         echo "You have no groups! Create one now! Then, You can invite members to join your group!";
     }//END FIND GROUPS USER IS IN
-
-
-
+ 
     
 }
 ?>

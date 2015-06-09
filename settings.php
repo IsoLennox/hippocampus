@@ -20,8 +20,54 @@
         $username=$user_data['username'];
         $email=$user_data['email'];
         $stored_pass=$user_data['password'];
+        $avatar=$user_data['avatar'];
+        $old_content=$user_data['profile_content'];
  
     } 
+
+
+
+
+ 
+ 
+
+if (isset($_POST['submit_profile'])) {
+    
+    
+  // Process the form
+  
+   
+  $content = mysql_prep($_POST["content"]); 
+ 
+      
+    
+   // Perform Update BOOK
+      
+    $update_profile  = "UPDATE users SET ";
+    $update_profile .= "profile_content = '{$content}' ";
+    $update_profile .= "WHERE id = {$_SESSION['user_id']} ";
+    $result = mysqli_query($connection, $update_profile);
+
+    if ($result && mysqli_affected_rows($connection) == 1) {
+      // Success
+        $_SESSION["message"] = "profile updated.";
+        redirect_to("edit_profile.php?");
+
+    } else {
+      // Failure
+      $_SESSION["message"] = "profile update failed.";
+        redirect_to("edit_profile.php?");
+        
+    }//END UPDATE profile
+      
+
+  
+} 
+    
+    
+    
+    
+    
 
 
 if (isset($_POST['submit'])) {
@@ -265,9 +311,52 @@ function checkUname(){
      
      </script>  
     
-   <h4>Settings</h4>
+   
    <div class="center one-third"> 
+   <h2>Edit Profile</h2>
+   
+          <h3 class="links" onclick="toggle_visibility('new_avatar');">Change Avatar</h3> 
+       <p>Your Profile Image</p>
+        <span id="new_avatar">
  
+        <img src="<?php echo $avatar; ?>" alt="Current Profile Image" />
+       
+        <form action="upload_profile_img.php" method="post" enctype="multipart/form-data">
+        Select New Image:<br/>
+        <input type="file" name="image" id="fileToUpload"><br/>
+
+        <input type="submit" value="Upload File" name="submit">
+        </form>
+        <?php if($avatar!="http://lorempixel.com/150/150/cats"){ ?>
+        <a href="delete.php?avatar=<?php echo $_SESSION['user_id']; ?>"> <i class="fa fa-trash-o"> Delete Profile Image</i></a>
+        <?php } ?>   
+        </span> 
+
+  <hr/>
+
+    <h3 class="links" onclick="toggle_visibility('new_content');">Profile Content</h3> 
+       <p>Your Profile Content</p>
+        <span id="new_content">
+        <form action="settings.php" method="post">
+
+        <p>Profile Content:<br/>
+        <textarea cols="100" rows="5" name="content" value="<?php echo htmlentities($content); ?>" ><?php echo htmlentities($old_content); ?></textarea>
+        </p>
+
+        <input type="submit" name="submit_profile" value="Save" />
+        </form>
+        </span> 
+        
+ 
+    
+      <hr/>
+    
+    
+    
+    
+    
+    
+ <h2>Account Settings</h2>
    
    <h3 class="links" onclick="toggle_visibility('new_username');">Change Username</h3> 
    <p>Your public-facing name</p>
