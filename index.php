@@ -253,23 +253,8 @@ if(isset($_GET['group'])){
     </span></h1>
    
        
+  
  
-    <h1><?php echo $group_name; ?><span class="right"><?php echo $num_users; ?></span></h1>
-    <?php
-       
- 
-            if($_SESSION['user_id']==$created_by){
-                //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
-                echo " <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$_GET['group']."&delete\"><i class=\"fa fa-trash-o\"></i></a>";
-                echo "<a href=\"\"><i class=\"fa fa-pencil\"></i></a>";
-            }else{
-                echo " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
-            }
-
-     
-      
-        ?>
-     
     <h3 id="show-hidden-addpost"><i class="fa fa-plus-circle"></i> New Post</h3>
     <form class="hidden-addpost" style="display: none;" method="POST" enctype="multipart/form-data">  
          

@@ -1,3 +1,5 @@
+/*@media(max-width: 800px) {*/
+
 body{ 
     margin: 0;
     font-size: 20px;
@@ -11,6 +13,7 @@ header {
     background: #222;
     color: antiquewhite;
 /*    margin-bottom: 50px; */
+/*     height: 70px; */
 }
 
 header img {max-height: 30px;}
@@ -23,21 +26,31 @@ header a:hover { color: grey;}
 
 nav {
     position: relative;
-    top: -20px;
+    top: -10px;
+/*    left: -191.2px;*/
+    z-index: 999;
 }
  
 #nav {
     display: table;
     height: 87px;
     width: 100%;
-    position: relative;
-    left: -40px;
-    top: -26px;
+    position: relative; 
+        top:-20px;
+    left: -191.2px;
+    
+/*
+        position: absolute; 
+        top:0;
+    left: -2%;
+*/
 }
 
 #nav .fa {
-    font-size: 30px;
     color: black;
+            font-size: 60px;
+        position: relative;
+        top: 15px;
 }
  
  
@@ -50,6 +63,8 @@ nav {
     background: #ddd;
     border-right: 1px solid #fff;
     white-space: nowrap;
+    
+/*    height: 107px;*/
 }
 
 #nav a:hover {
@@ -57,6 +72,8 @@ nav {
     background: whitesmoke;
     color: #ddd;
 }
+    
+ 
  
 
 
@@ -122,6 +139,8 @@ height: 0;
     padding-top: 50px;
     position: relative;
     top: -65px;
+    
+/*    top: -120px; */
 }
 
 
@@ -277,31 +296,19 @@ input[type="file"]{
 
 a {text-decoration: none;  
 }
-
-
-
-
-
-
-
-
-
- 
-
-/******************************
-        /MEDIA QUERIES
-*******************************/
-
-
-@media(max-width: 1000px) {
-
-    header { 
-    height: 20px;
-    padding: 30px;  
-/*    margin-bottom: 50px; */
-}
      
+  
     
+/*}*/
+/*END MAX 800*/
+
+
+
+/*FULL SIZE SCREEN*/
+@media(min-width: 800px) {
+    body{
+        background: black;
+    }
 }
 
 
@@ -326,6 +333,7 @@ a {text-decoration: none;
     #nav { 
         height: 107px; 
         top:-40px;
+         left: -40px;
     }
 
     #nav .fa {
@@ -337,6 +345,7 @@ a {text-decoration: none;
 
     #nav a{
         height: 107px;
+        
     }
     
     #page {
