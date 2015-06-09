@@ -125,7 +125,10 @@ height: 0;
 }
 
 
-
+#group_nav {
+  font-size: 50px;
+  line-height: 1.5;
+}
 #group_nav li{
     padding: 5px 10px;
     border-radius: 5px;
@@ -306,5 +309,41 @@ a {text-decoration: none;
 /*MOBILE DEVICES ONLY*/
 @media only screen and (max-device-width: 800px) {
   
+    body{
+        font-size: 60px;
+        background: #eee;
+    }
+    
+    a { font-size: 50px;}
+    header { 
+        height: 70px;  
+    }
+    
+     header a{ 
+        font-size: 70px; 
+    }
+    
+    #nav { 
+        height: 107px; 
+        top:-40px;
+    }
 
-	}
+    #nav .fa {
+        font-size: 60px;
+        position: relative;
+        top: 15px;
+    }
+
+
+    #nav a{
+        height: 107px;
+    }
+    
+    #page {
+        top: -120px;
+        background: #eee;
+    }
+    
+    
+
+}

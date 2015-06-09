@@ -67,7 +67,7 @@ if($first_password===$confirmed_password){
         $username_array= mysqli_fetch_assoc($username_found);
         
         if (empty($username_array)){
-            $avatar=addslashes("http://lorempixel.com/50/50/abstract");
+            $avatar=addslashes("http://lorempixel.com/100/100/abstract");
             
             //Username is not taken
               $query  = "INSERT INTO users (";

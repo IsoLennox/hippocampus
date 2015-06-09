@@ -20,7 +20,8 @@ if(isset($_POST['add_group'])){
             $group_array=mysqli_fetch_assoc($group_found);
             
              //INSERT USER INTO USER_GROUPS
-            $new_user_group .= "INSERT INTO user_group (user_id, group_id) VALUES ( {$_SESSION['user_id']}, {$group_array['id']} )";
+            $group_avatar="http://lorempixel.com/100/100/technics";
+            $new_user_group .= "INSERT INTO user_group (user_id, group_id, avatar) VALUES ( {$_SESSION['user_id']}, {$group_array['id']}, '{$group_avatar}' )";
             $user_group_added = mysqli_query($connection, $new_user_group);
 
             if ($user_group_added) {
@@ -93,6 +94,11 @@ if(isset($_GET['group'])){
         $group_details_array=mysqli_fetch_assoc($group_details);       
         $group_name=$group_details_array['name'];
         $created_by=$group_details_array['created_by'];
+        $avatar=$group_details_array['avatar'];
+        if(empty($avatar)){
+            $avatar="http://lorempixel.com/100/100/abstract";
+        }
+        
     }else{
         $group_name="Undefined";
     }
@@ -106,7 +112,7 @@ if(isset($_GET['group'])){
         
         echo "<h1><a href=\"index.php?group=".$group_details_array['id']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_details_array['name']."</a></h1>";
         echo "Edit name, avatar, give admin rights away";
-        
+        echo "<img src=\"".$avatar."\" alt=\"Group Avatar\" />";
         
        
         echo "<div class=\"red\"><h3>Danger Zone</h3>";
@@ -152,7 +158,7 @@ if(isset($_GET['group'])){
         echo "<h1><a href=\"index.php?group=".$_GET['group']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_name."</a></h1>";
         
         
-        echo "<span class=\"half\"><h2>Members in this Group</h2>";
+        echo "<span class=\"half\"><h2>Members</h2>";
         //GET GROUP MEMBERS
         $get_users .= "SELECT * FROM user_group WHERE group_id={$_GET['group']}";
         $group_users= mysqli_query($connection, $get_users);
@@ -240,13 +246,8 @@ if(isset($_GET['group'])){
             }else{
                 $can_edit="";
                 $can_leave= " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
-            }  ?>
-
-    <h1><a href="index.php"><i class="fa fa-arrow-left"> </i></a> <?php echo $group_name." ".$can_edit; ?> <span class="right group_actions"><?php echo $num_users." ".$can_leave;  ?>
-    
-
-    
-   
+            }  ?> 
+    <h1><?php echo $group_name." ".$can_edit; ?> <span class="right group_actions"><?php echo $num_users." ".$can_leave;  ?> 
     </span></h1>
     <?php
        
@@ -312,10 +313,6 @@ if(isset($_GET['group'])){
     <form class="hidden-form" style="display: none;" method="POST" enctype="multipart/form-data">  
         <label for="name">Group Name</label>
         <input type="text" name="name" placeholder="Group Name"><br/>
-<!-- ADD AVATAR FUNCTIONALITY LATER
-        <label for="image">Upload a group avatar</label>
-        <input type="file" name="image" id="fileToUpload"><br/>
--->
         <input type="submit" value="Create Group" name="add_group">
     </form>
     
@@ -333,7 +330,7 @@ if(isset($_GET['group'])){
 
                 if ($groups) {
                     foreach($groups as $group){  
-                        echo "<li><a href=\"index.php?group=".$group['id']."\">".$group['name']."</a></li>";
+                        echo "<li><a href=\"index.php?group=".$group['id']."\"><img src=\"".$group['avatar']."\" alt=\"Group Avatar\" /> ".$group['name']."</a></li>";
                     }//END DISPLAY GROUP DETAILS
                 }//END GET GROUP DETAILS
         }//END LOOP THROUGH GROUPS
