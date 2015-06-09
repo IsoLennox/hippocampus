@@ -1,5 +1,7 @@
-<?php include("inc/header.php"); ?>
-<?php
+<?php 
+$current_page="groups";
+include("inc/header.php"); 
+
 
 if(isset($_POST['add_group'])){
     //CREATE NEW GROUP
@@ -39,8 +41,7 @@ if(isset($_POST['add_group'])){
         redirect_to("index.php");
         
     }//END CREATE GROUP
-}
-elseif(isset($_POST['add_post'])){
+}elseif(isset($_POST['add_post'])){
     //CREATE NEW POST IN GROUP
     
     $content=addslashes($_POST['content']);
@@ -66,13 +67,7 @@ elseif(isset($_POST['add_post'])){
 
 ?>
  
-<section class="one_third">
-
-
-</section>
-
-
-
+ 
 
 
 
@@ -96,10 +91,10 @@ if(isset($_GET['group'])){
     $group_details= mysqli_query($connection, $this_group);
     if ($group_details) {
         $group_details_array=mysqli_fetch_assoc($group_details);       
-        $group_name="<a href=\"index.php\"><i class=\"fa fa-arrow-left\"> </i></a> ".$group_details_array['name'];
+        $group_name=$group_details_array['name'];
         $created_by=$group_details_array['created_by'];
     }else{
-        $group_name="<a href=\"index.php\"><i class=\"fa fa-arrow-left\"> </i></a> Undefined";
+        $group_name="Undefined";
     }
     
     
@@ -107,23 +102,38 @@ if(isset($_GET['group'])){
     
     //SPECIAL ACTIONS
     
-    if(isset($_GET['delete'])){
-    //DELETE GROUP
-    ?>
-       <h2>Deleting <?php echo $group_name; ?></h2>
-       <span class="one_third">
-        <form action="delete.php" method="POST">
-            <p>Please enter your password</p>
-            <input type="hidden" name="group_id" value="<?php echo $_GET['group'] ?>"><br/>
-            <input type="password" name="password" placeholder="Password"><br/>
-            <input type="submit" name="group" value="Delete" >
-        </form>
-        </span>
-        <span class="two_thirds">
-            <p># Users will be kicked out</p>
-            <p># Posts Will be deleted</p>
-        </span>
-    <?php
+    if(isset($_GET['edit'])){
+        
+        echo "<h1><a href=\"index.php?group=".$group_details_array['id']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_details_array['name']."</a></h1>";
+        echo "Edit name, avatar, give admin rights away";
+        
+        
+       
+        echo "<div class=\"red\"><h3>Danger Zone</h3>";
+        if(isset($_GET['delete'])){
+        //DELETE GROUP
+        ?>
+           <h3>Delete This Group</h3>
+           <span class="one_third">
+            <form action="delete.php" method="POST">
+                <p>Please enter your password</p>
+                <input type="hidden" name="group_id" value="<?php echo $_GET['group'] ?>"><br/>
+                <input type="password" name="password" placeholder="Password"><br/>
+                <input type="submit" name="group" value="Delete" >
+                <a href="index.php?group=<?php echo $group_details_array['id']; ?>&edit">Cancel</a>
+            </form>
+            </span>
+            <span class="two_thirds">
+                <p># Users will be kicked out</p>
+                <p># Posts Will be deleted</p>
+            </span>
+            </div>
+        <?php
+        }else{
+            
+            echo " <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$_GET['group']."&edit&delete\"><i class=\"fa fa-trash-o\"></i> Delete this group</a></div>";
+        }//END DELETE
+        
     }elseif(isset($_GET['leave'])){
     //DELETE GROUP
    
@@ -136,11 +146,10 @@ if(isset($_GET['group'])){
       }
     
     }elseif(isset($_GET['members'])){
-        
-        echo "&laquo; Back to Posts";
+             
         
         //INVITE MEMBERS TO THIS GROUP
-        echo "<h1>Members of ".$group_name."</h1>";
+        echo "<h1><a href=\"index.php?group=".$_GET['group']."\"><i class=\"fa fa-arrow-left\"> </i> ".$group_name."</a></h1>";
         
         
         echo "<span class=\"half\"><h2>Members in this Group</h2>";
@@ -167,7 +176,7 @@ if(isset($_GET['group'])){
         
         echo "<span class=\"half\"><h2>Invite</h2>";
                 //GET CONTACTS
-        $get_contacts .= "SELECT * FROM contacts WHERE (contact1={$_SESSION['user_id']} OR contact2={$_SESSION['user_id']}) AND accepted=1";
+        $get_contacts .= "SELECT * FROM contacts WHERE (user1={$_SESSION['user_id']} OR user2={$_SESSION['user_id']}) AND accepted=1";
         $group_contacts= mysqli_query($connection, $get_contacts);
         if ($group_contacts) {
             echo "<ul>";
@@ -220,21 +229,29 @@ if(isset($_GET['group'])){
         foreach($group_users as $user){
             $num_users++;
         }
-        $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." Members</a>";  
-    } ?>
+        $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." <i class=\"fa fa-users\"></i></a>";  
+    } 
+    
+    
+       if($_SESSION['user_id']==$created_by){
+                //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
+                $can_edit= "<a href=\"index.php?group=".$_GET['group']."&edit\"><i class=\"fa fa-pencil\"></i></a>";
+                $can_leave="";
+            }else{
+                $can_edit="";
+                $can_leave= " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
+            }  ?>
+
+    <h1><a href="index.php"><i class="fa fa-arrow-left"> </i></a> <?php echo $group_name." ".$can_edit; ?> <span class="right group_actions"><?php echo $num_users." ".$can_leave;  ?>
     
 
-    <h1><?php echo $group_name; ?><span class="right"><?php echo $num_users; ?></span></h1>
+    
+   
+    </span></h1>
     <?php
        
  
-            if($_SESSION['user_id']==$created_by){
-                //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
-                echo " <a onclick=\"return confirm('DELETE group?');\" href=\"index.php?group=".$_GET['group']."&delete\"><i class=\"fa fa-trash-o\"></i></a>";
-                echo "<a href=\"\"><i class=\"fa fa-pencil\"></i></a>";
-            }else{
-                echo " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
-            }
+         
 
      
       
@@ -255,16 +272,17 @@ if(isset($_GET['group'])){
     <?php 
     //DETERMINE POST STYLE
     if(!isset($_GET['grid'])){ ?>
-    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>&grid"><i class="fa fa-picture-o"></i></a></span>
+    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>&grid"><i class="fa fa-2x fa-picture-o"></i></a></span>
     <?php
     $get_posts .= "SELECT * FROM posts WHERE group_id={$_GET['group']} ORDER BY id DESC";
      }else{ ?>
-    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>"><i class="fa fa-bars"></i></a></span>
+    <span class="right"><a href="index.php?group=<?php echo $_GET['group']; ?>"><i class="fa fa-2x fa-bars"></i></a></span>
     <?php   
     $get_posts .= "SELECT * FROM posts WHERE group_id={$_GET['group']} AND image!='' ORDER BY id DESC";   } ?>
     
      
-    <br/><hr/><br/>
+    <br>
+    <br>
 <!--    CHOOSE GROUP, UPLOAD PHOTO, SAY SOMETHING-->
     
     <?php
@@ -307,8 +325,7 @@ if(isset($_GET['group'])){
     $groups_found= mysqli_query($connection, $get_my_groups);
 
     if ($groups_found) {
-        echo "<ul id=\"group_nav\">";
-        echo "<li><a href=\"index.php\">Activity</a></li>";
+        echo "<ul id=\"group_nav\">"; 
         foreach($groups_found as $group_found){ 
              //GET GROUP DETAILS
                 $show_groups = "SELECT * FROM groups WHERE id={$group_found['group_id']}";

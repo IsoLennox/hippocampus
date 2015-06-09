@@ -160,6 +160,12 @@ height: 0;
         /ELEMENTS
 *******************************/
 
+.red{ 
+      background-color: rgba(255,0,0,.2);
+      color: firebrick;
+      padding: 10px;
+    overflow: hidden;
+}
 
 .left{ float: left; }
 .right{ float: right;}
