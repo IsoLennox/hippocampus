@@ -67,19 +67,6 @@ if(isset($_POST['add_group'])){
 }
 
 ?>
- 
-<<<<<<< HEAD
-<section class="one_third">
-
-
-</section>
-
-
-
-=======
- 
->>>>>>> a064083de681157d2b3e148065911f3670463bbf
-
 
 
 
@@ -94,12 +81,9 @@ if(isset($_POST['add_group'])){
 
 //GET GROUP ID CHOSEN, ELSE SHOW FEED FROM ALL GROUPS USER IS IN
 if(isset($_GET['group'])){
-    
-<<<<<<< HEAD
+
     echo "<a href=\"index.php\">&laquo; Groups</a>";
-=======
-     
->>>>>>> a064083de681157d2b3e148065911f3670463bbf
+
      
         //GET GROUP NAME
     $this_group .= "SELECT * FROM groups WHERE id={$_GET['group']}";
@@ -108,14 +92,12 @@ if(isset($_GET['group'])){
         $group_details_array=mysqli_fetch_assoc($group_details);       
         $group_name=$group_details_array['name'];
         $created_by=$group_details_array['created_by'];
-<<<<<<< HEAD
-=======
+
         $avatar=$group_details_array['avatar'];
         if(empty($avatar)){
             $avatar="http://lorempixel.com/100/100/abstract";
         }
-        
->>>>>>> a064083de681157d2b3e148065911f3670463bbf
+         
     }else{
         $group_name="Undefined";
     }
@@ -254,14 +236,10 @@ if(isset($_GET['group'])){
         foreach($group_users as $user){
             $num_users++;
         }
-<<<<<<< HEAD
-        $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." Members</a>";  
-    } ?>
-=======
+
         $num_users="<a href=\"index.php?group=".$_GET['group']."&members\">".$num_users." <i class=\"fa fa-users\"></i></a>";  
     } 
     
->>>>>>> a064083de681157d2b3e148065911f3670463bbf
     
        if($_SESSION['user_id']==$created_by){
                 //GIVE GROUP ADMIN EDIT AND DELETE RIGHTS
@@ -273,12 +251,9 @@ if(isset($_GET['group'])){
             }  ?> 
     <h1><?php echo $group_name." ".$can_edit; ?> <span class="right group_actions"><?php echo $num_users." ".$can_leave;  ?> 
     </span></h1>
-    <?php
+   
        
  
-         
-
-<<<<<<< HEAD
     <h1><?php echo $group_name; ?><span class="right"><?php echo $num_users; ?></span></h1>
     <?php
        
@@ -291,8 +266,6 @@ if(isset($_GET['group'])){
                 echo " <a onclick=\"return confirm('LEAVE group? You must be invited to join again.');\" href=\"index.php?group=".$_GET['group']."&leave\"><i class=\"fa fa-sign-out\"></i></a>"; 
             }
 
-=======
->>>>>>> a064083de681157d2b3e148065911f3670463bbf
      
       
         ?>
