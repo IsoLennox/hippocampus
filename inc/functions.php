@@ -92,6 +92,8 @@ function form_errors($errors=array()) {
 	
  
 
+//USERS
+
 function find_user_by_id($user_id) {
     global $connection;
 
@@ -145,6 +147,46 @@ function find_user_by_email($email) {
         return null;
     }
 }
+
+
+//GROUPS
+
+function find_group_by_id($group_id) {
+    global $connection;
+
+    $safe_group_id = mysqli_real_escape_string($connection, $group_id);
+
+    $query  = "SELECT * ";
+    $query .= "FROM groups ";
+    $query .= "WHERE id = {$safe_group_id} ";
+    $query .= "LIMIT 1";
+    $group_set = mysqli_query($connection, $query);
+    confirm_query($group_set);
+    if($group = mysqli_fetch_assoc($group_set)) {
+        return $group;
+    } else {
+        return null;
+    }
+}
+
+
+
+function find_users_groups($user_id) {
+    global $connection;
+ 
+
+    $query  = "SELECT * ";
+    $query .= "FROM user_group ";
+    $query .= "WHERE user_id = {$user_id} ";
+    $query .= "LIMIT 1";
+    $group_set = mysqli_query($connection, $query);
+    confirm_query($group_set);
+    if($groups = mysqli_fetch_assoc($group_set)) {
+        return $groups;
+    } else {
+        return null;
+    }
+} 
 
  
  

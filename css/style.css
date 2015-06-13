@@ -112,8 +112,17 @@ nav {
     color: #ddd;
 }
     
- 
- 
+h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+} 
+h3{
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+h4 {
+    margin-bottom: 20px;
+}
 
 
 
@@ -121,12 +130,24 @@ nav {
 #show-hidden-menu img { position: relative; top: 15px;}
 #show-hidden-menu:hover, #show-hidden-form:hover, #show-hidden-addpost:hover{ cursor: pointer; }
 
+
+
 .hidden_menu{
     width: 400px;
     display: inline-block;
     position: relative;
     left: 200px;
     background: #222;
+}
+
+.hidden-form {
+    font-size: 30px;
+    margin-bottom: 60px;
+}
+.hidden-form input[type="text"] {
+    width: 80%;
+    font-size: 30px;
+    
 }
 
 
@@ -177,14 +198,17 @@ height: 0;
     padding: 80px 40px 40px;
     position: relative;
     top: -65px;
-    
-/*    top: -120px; */
+    height: 100vh;
 }
 
 
 #group_nav {
-  font-size: 50px;
+  font-size: 30px;
   line-height: 1.5;
+}
+#group_nav img {
+    max-height: 50px;
+    max-width: 50px;
 }
 #group_nav li{
     padding: 5px 10px;
@@ -202,6 +226,11 @@ height: 0;
 #group_nav .active a { color: black; }
 #group_nav .active a:hover { color: white; }
 
+
+#group_head { 
+    padding: 10px;
+}
+
 .post_container { 
     clear: both;
     margin-bottom: 30px;
@@ -210,6 +239,13 @@ height: 0;
     overflow: hidden;
     background: white;
 }
+
+.notification{
+    border: 1px solid grey;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+ 
 
 
 
@@ -368,6 +404,7 @@ a {text-decoration: none;
         font-size: 70px; 
     }
     
+    
     #nav { 
         height: 107px; 
         top:-20px; 
@@ -391,6 +428,30 @@ a {text-decoration: none;
         padding: 120px 40px 40px;
     }
     
+    h1 {
+    font-size: 74px;
+    }
+    h3{font-size: 60px;}
+    
+    #group_title{ font-size: 120px;}
+    
+    .hidden-form {font-size: 60px;}
+    .hidden-form input[type="text"] {
+        width: 50%;
+        font-size: 60px;
+    }
+    .hidden-form input[type="submit"] { font-size: 60px; }
+   .hidden-addpost textarea { font-size: 30px; max-width: 600px; }
+   .hidden-addpost input[type="submit"] { font-size: 60px; }
+    
+    #group_nav a{
+          font-size: 90px;
+    }
+    
+    #group_nav img {
+        max-height: 100px;
+        max-width: 100px;
+    }
     
 
 }
