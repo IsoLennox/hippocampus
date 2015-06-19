@@ -1,4 +1,5 @@
-<?php include("inc/header.php"); 
+<?php $current_page="activity";
+include("inc/header.php"); 
 
 if(isset($_GET['remove'])){
     $remove_invite  = "DELETE FROM alerts WHERE id={$_GET['remove']} LIMIT 1";
@@ -18,13 +19,12 @@ if(isset($_GET['remove'])){
        
 <!--       FRIEND REQUESTS -->
         <?php
-        $get_reuests .= "SELECT * FROM contacts WHERE sent_to={$_SESSION['user_id']} AND accepted=0";
+        $get_reuests = "SELECT * FROM contacts WHERE sent_to={$_SESSION['user_id']} AND accepted=0";
         $request_found= mysqli_query($connection, $get_reuests);
         $num_reuests=mysqli_num_rows($request_found);
 //        if ($request_found) {
         if ($num_reuests>=1) {
-              
-            echo "<h2>New Friend Requests</h2>";
+               
             foreach($request_found as $user){ 
                 
             if($_SESSION['user_id']==$user['user1']){
@@ -33,7 +33,7 @@ if(isset($_GET['remove'])){
                 $contact_id=$user['user1'];
             }  
                 $contact_details=find_user_by_id($contact_id);
-                echo "<div class=\"notification\"><a href=\"profile.php?user=".$contact_details['id']."\">".$contact_details['username']."</a> <a href=\"profile.php?user=".$contact_details['id']."&accept\">Accept</a> <a href=\"profile.php?user=".$contact_details['id']."&remove=".$contact_details['id']."\">Deny</a></div>";
+                echo "<div class=\"notification\"><a href=\"profile.php?user=".$contact_details['id']."\">".$contact_details['username']."</a> would like to be your friend!<br/><br/> <a class=\"green\" href=\"profile.php?user=".$contact_details['id']."&accept\">Accept</a> <a class=\"red\" href=\"profile.php?user=".$contact_details['id']."&remove=".$contact_details['id']."\">Deny</a><br/><br/></div>";
             }
         }    ?>
         
@@ -43,7 +43,7 @@ if(isset($_GET['remove'])){
         
         <!--    GROUP INVITES  -->
         <?php
-        $get_invites .= "SELECT * FROM invites WHERE user_id={$_SESSION['user_id']} ORDER BY id DESC";
+        $get_invites = "SELECT * FROM invites WHERE user_id={$_SESSION['user_id']} ORDER BY id DESC";
         $invites_found= mysqli_query($connection, $get_invites);
         $num_invites=mysqli_num_rows($invites_found);
 //        if ($invites_found) {
@@ -56,7 +56,7 @@ if(isset($_GET['remove'])){
              
                 $invited_by=find_user_by_id($invited_by);
                 $group=find_group_by_id($group_id);
-                echo "<div class=\"notification\">You have been invited by ".$invited_by['username']." To join the group: <a href=\"index.php?group=".$group['id']."\">".$group['name']."</a>! <br/><a href=\"index.php?join=".$group_id."\">Accept</a>   <a href=\"index.php?decline=".$group_id."\">Deny</a></div>";
+                echo "<div class=\"notification\">You have been invited by ".$invited_by['username']." To join the group: <a href=\"index.php?group=".$group['id']."\">".$group['name']."</a>! <br/><br/><a class=\"green\"  href=\"index.php?join=".$group_id."\">Accept</a>   <a class=\"red\"  href=\"index.php?group=".$group_id."&decline\">Deny</a><br/><br/></div>";
             }
         }    ?>
         
@@ -68,7 +68,7 @@ if(isset($_GET['remove'])){
 <!--        accepted or denied friends or groups -->  
         
         <?php
-        $get_alerts .= "SELECT * FROM alerts WHERE user_id={$_SESSION['user_id']} ORDER BY id DESC";
+        $get_alerts = "SELECT * FROM alerts WHERE user_id={$_SESSION['user_id']} ORDER BY id DESC";
         $alerts_found= mysqli_query($connection, $get_alerts);
         $num_alerts=mysqli_num_rows($alerts_found); 
         if ($alerts_found>=1) {

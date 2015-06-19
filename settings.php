@@ -204,7 +204,7 @@ if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
      <script>
  //check username availability/if empty
 function checkUname(){
-              $("#u-error input").css({"border": "1px solid grey"});
+              $("#u-error input").css({"border": "2px solid #dfebdf"});
         $.ajax({
           url: "validation.php?uname="+username
         }).success(function( data ) {
@@ -220,7 +220,7 @@ function checkUname(){
         $("#availability").html("");
            $("#u-error input").css({"border": "5px solid #E43633"});
       }else{
-          $("#u-error input").css({"border": "1px solid grey"});
+          $("#u-error input").css({"border": "2px solid #dfebdf"});
         $.ajax({
           url: "validation.php?uname="+username
         }).done(function( data ) {
@@ -238,7 +238,7 @@ function checkUname(){
         $("#eavailability").html("");
            $("#e-error input").css({"border": "5px solid #E43633"});
       }else{
-          $("#e-error input").css({"border": "1px solid grey"});
+          $("#e-error input").css({"border": "2px solid #dfebdf"});
         $.ajax({
           url: "validation.php?email="+email
         }).done(function( data ) {
@@ -256,7 +256,7 @@ function checkUname(){
       if (input == '') {
         $("#p1-error input").css({"border": "5px solid #E43633"});
       }else{
-        $("#p1-error input").css({"border": "1px solid grey"});
+        $("#p1-error input").css({"border": "2px solid #dfebdf"});
       }
     });
   });
@@ -270,7 +270,7 @@ function checkUname(){
       if (input == '') {
         $("#p2-error input").css({"border": "5px solid #E43633"});
       }else{
-        $("#p2-error input").css({"border": "1px solid grey"});
+        $("#p2-error input").css({"border": "2px solid #dfebdf"});
       }
     });
   });
@@ -312,101 +312,110 @@ function checkUname(){
      </script>  
     
    
-   <div class="center one-third"> 
-   <h2>Edit Profile</h2>
-   
-          <h3 class="links" onclick="toggle_visibility('new_avatar');">Change Avatar</h3> 
-       <p>Your Profile Image</p>
-        <span id="new_avatar">
- 
+   <div class="  one-third"> 
+   <h1 class="links"  onclick="toggle_visibility('new_profile');"><i class="fa fa-user"></i> Edit Profile</h1>
+  <div id="new_profile">
+  
+          <h3>Change Avatar</h3>  
         <img src="<?php echo $avatar; ?>" alt="Current Profile Image" />
-       
+        
         <form action="upload_profile_img.php" method="post" enctype="multipart/form-data">
         Select New Image:<br/>
         <input type="file" name="image" id="fileToUpload"><br/>
 
-        <input type="submit" value="Upload File" name="submit">
+        <input type="submit" value="Save New Image" name="submit">
         </form>
-        <?php if($avatar!="http://lorempixel.com/150/150/cats"){ ?>
-        <a href="delete.php?avatar=<?php echo $_SESSION['user_id']; ?>"> <i class="fa fa-trash-o"> Delete Profile Image</i></a>
-        <?php } ?>   
-        </span> 
+   <br>
+       <br> 
+    <br>
+       <br> 
+       <br> 
+       <br> 
 
-  <hr/>
-
-    <h3 class="links" onclick="toggle_visibility('new_content');">Profile Content</h3> 
-       <p>Your Profile Content</p>
-        <span id="new_content">
+    <h3 style="clear:both;" >Change Profile Content</h3> 
+       
+        
         <form action="settings.php" method="post">
 
         <p>Profile Content:<br/>
-        <textarea cols="100" rows="5" name="content" value="<?php echo htmlentities($content); ?>" ><?php echo htmlentities($old_content); ?></textarea>
+        <textarea cols="100" rows="5" id="content" name="content" placeholder="Say something about yourself!" value="<?php echo htmlentities($content); ?>" ><?php echo htmlentities($old_content); ?></textarea>
         </p>
 
-        <input type="submit" name="submit_profile" value="Save" />
-        </form>
-        </span> 
-        
+        <input type="submit" name="submit_profile" value="Save Content" />
+        </form>  
+ </div> 
+    
  
-    
-      <hr/>
-    
-    
-    
-    
+    <br>
+    <br>
+    <br>
+    <br>
     
     
- <h2>Account Settings</h2>
-   
-   <h3 class="links" onclick="toggle_visibility('new_username');">Change Username</h3> 
-   <p>Your public-facing name</p>
-    <span id="new_username">
+    
+    
+    
+ <h1 class="links" onclick="toggle_visibility('account_settings');"><i class="fa fa-gear"></i> Account Settings</h1>
+   <span id="account_settings">
+   <h3>Change Username</h3> 
+ 
+    <p>Your public-facing name</p>
     <form action="settings.php?username" method="POST">
        
          <p id="u-error">New Username:
         <input type="text" name="username" id="username" value="<?php echo $username; ?>" /> 
 <!--        user must unfocus input to see if avail or not-->
-        <i title="Check availability" class="fa fa-search"></i>
+       <br/>
+       <br/>
+        <i title="Check availability"></i>
          
       </p>
       <div id="availability"></div> 
-      <br/><br/>  <input type="submit" name="submit" value="Save">
-    </form>
-    </span> 
+      <br/><br/>  <input type="submit" name="submit" value="Save Username">
+    </form>  
     
-    
-    <hr/>
-   <h3 class="links" onclick="toggle_visibility('new_email');">Change Email  </h3>
+    <br>
+       <br>
+   <hr/>
+    <br>
+       <br>
+       
+       
+   <h3>Change Email  </h3>
       <p>Used to log in and recover password</p>
-       <span id="new_email">
+       
     <form action="settings.php?email" method="POST">
         <p id="e-error">New Email:
         <input type="text" name="email" id="email" value="<?php echo $email; ?>" />  <i title="Check availability" class="fa fa-search"></i></p>
-        <div id="eavailability"></div> 
-       <br/><br/> <input type="submit" name="submit" value="Save">
+       <br/>  <div id="eavailability"></div> 
+       <br/><br/> <input type="submit" name="submit" value="Save Email">
     </form>
-    </span> 
-   
+     
+    <br>
+       <br>
    <hr/>
+    <br>
+       <br>
    
    
-   <h3 class="links" onclick="toggle_visibility('new_pass');">Change Password</h3>
-          <span id="new_pass"> 
+   <h3>Change Password</h3>
+          
     <form action="settings.php?password" method="POST">
         <p> Old Password:</p> <input type="password" value="" name="old_pass" placeholder="OLD PASSWORD"><br/>
         
               <p id="p1-error">New Password:<br/>
         <input type="password" name="new_pass" id="pass" value="" />
       </p>
-        <p id="p2-error">Confirm New Password: 
+        <p id="p2-error">Confirm New Password: <br/>
           <input type="password" name="confirm_pass" id="pass2" value="" onkeyup="checkPass(); return false;" />
         
       </p>
      <span id="confirmMessage" class="confirmMessage"></span>
         
-         <br/><input type="submit" name="submit" value="Save">
-    </form>
-    </span> 
+         <br/><input type="submit" name="submit" value="Save Password">
+    </form> 
+    
+    </span>
   </div>
     <?php
    

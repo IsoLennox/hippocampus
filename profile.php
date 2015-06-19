@@ -38,14 +38,27 @@ if(isset($_GET['add'])){
     }
     
     
-}elseif(isset($_GET['remove'])){
+}elseif(isset($_GET['remove'])){ 
     $user_id=$_GET['remove'];
     $remove_contact  = "DELETE FROM contacts WHERE (user1={$_SESSION['user_id']} AND user2={$user_id}) OR (user2={$_SESSION['user_id']} AND user1={$user_id}) LIMIT 1";  
     $contact_removed=mysqli_query($connection, $remove_contact);
     if($contact_removed){
+        
+        //NOTIFY DENIED CONTACT
+            $datetime=addslashes(date('m/d/Y H:i:s')); 
+            $content= $_SESSION['username']." has declined your friendship!";  
+            $new_join_alert = "INSERT INTO alerts ( user_id, group_id, content, datetime ) VALUES ( {$user_id}, 0, '{$content}', '{$datetime}' )";
+            $alert_created= mysqli_query($connection, $new_join_alert);
+
+            if ($alert_created) { 
+                   $_SESSION["message"] = "Contact Deleted"; 
+                    redirect_to("profile.php?user=".$user_id);
+            }else{
+                    $_SESSION["message"] = "Contact Deleted!"; 
+                    redirect_to("profile.php?user=".$user_id);
+            }//end send group admin alert
     
-        $_SESSION["message"] = "Contact Deleted"; 
-        redirect_to("profile.php?user=".$user_id);
+        
     
     }else{
         $_SESSION["message"] = "Oops, Look like you're stuck with this person!"; 
@@ -57,9 +70,24 @@ if(isset($_GET['add'])){
     $accepted_contact  = "UPDATE contacts SET accepted=1 WHERE sent_to={$_SESSION['user_id']} AND (user1={$user_id} OR user2={$user_id}) LIMIT 1";  
     $contact_accepted=mysqli_query($connection, $accepted_contact);
     if($contact_accepted){
-        //INSERT INTO HISTORY??
-        $_SESSION["message"] = "Contact Accepted"; 
-        redirect_to("profile.php?user=".$user_id);
+        //INSERT INTO NOTIFICATIONS
+        
+            $datetime=addslashes(date('m/d/Y H:i:s')); 
+            $content= $_SESSION['username']." has accepted your friendship!";  
+            $new_join_alert = "INSERT INTO alerts ( user_id, group_id, content, datetime ) VALUES ( {$user_id}, 0, '{$content}', '{$datetime}' )";
+            $alert_created= mysqli_query($connection, $new_join_alert);
+
+            if ($alert_created) {
+
+                    $_SESSION["message"] = "Contact Accepted. Invite them to a group to say Hello!"; 
+                    redirect_to("profile.php?user=".$user_id);
+            }else{
+                    $_SESSION["message"] = "Contact Accepted. Invite them to a group to say hello!"; 
+                    redirect_to("profile.php?user=".$user_id);
+            }//end send group admin alert
+        
+        
+        
     
     }else{
         $_SESSION["message"] = "Oops, Look like you cant befriend this person!"; 

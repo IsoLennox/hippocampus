@@ -1,5 +1,9 @@
 <?php $current_page="search";
 include("inc/header.php"); ?> 
+    <a href="#"><i class="fa fa-user-plus"></i>Invite New Members</a>
+    <br>
+    <br>
+    <br>
      <form class="search" id="search" action="search.php" method="post">
         <input name="query" value="" placeholder="Search Users and Memories..." autocomplete="off" name="author" id="author" value="<?php echo $name; ?>" type="text"  />
         <input type="submit" name="submit" value="&#xf002;" />
@@ -90,6 +94,60 @@ if(isset($_POST['submit'])){
             }// END SEARCH USERNAME!
             
  
+            
+            
+            
+            
+            
+            
+            
+            
+                        
+ //            =======================================================
+            
+                        //POST SEARCH
+            
+//            =======================================================
+            
+                  
+     
+            $post_search="SELECT * FROM posts WHERE content LIKE '%" . $query_string ."%' AND user_id={$_SESSION['user_id']} ";
+            //-run  the query against the mysql query function
+            $post_result=mysqli_query($connection, $post_search);
+            if($post_result){
+                $post_result_array=mysqli_fetch_assoc($post_result);
+                if(!empty($post_result_array)){
+            
+            
+                echo "<h2 class=\"clear\">Posts that contain \"". $query_string ."\":</h2>";
+                   foreach($post_result as $post_match){
+                        $post  =$post_match['content']; 
+                        $post_id  =$post_match['id'];
+                       
+                       if(!empty($post_match['image'])){
+                        $image="<img src=\"".$post_match['image']."\" />";
+                       }else{
+                        $image="";
+                       }
+  
+                 //STYLE OUTPUT      
+                       echo "<div class=\"post_sontainer\"><a href=\"post.php?id=$post_id\">".$image." ".$post."</a>";
+                        
+                    }//end foreach post found with name match
+                }else{
+//                echo "<br/>No posts contain '". $query_string."'<br/>";
+                }
+            }else{
+                echo "No posts match this query";
+               // mark no results variable
+                $no_results-=1;
+            }// END SEARCH post!
+            
+            
+            
+            
+            
+            
             
             
             }//end foreach string

@@ -33,3 +33,11 @@
 [15-Apr-2015 21:48:15 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'functions/session.php' (include_path='.:/opt/php55/lib/php') in /home4/ilennox/public_html/team_milk/public/basic_login/delete.php on line 1
 [15-Apr-2015 21:48:19 America/Chicago] PHP Warning:  require_once(functions/session.php): failed to open stream: No such file or directory in /home4/ilennox/public_html/team_milk/public/basic_login/delete.php on line 1
 [15-Apr-2015 21:48:19 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'functions/session.php' (include_path='.:/opt/php55/lib/php') in /home4/ilennox/public_html/team_milk/public/basic_login/delete.php on line 1
+[13-Jun-2015 16:24:27 America/Chicago] PHP Fatal error:  Cannot use object of type mysqli_result as array in /home4/ilennox/public_html/projects/hippocampus/inc/header.php on line 73
+[13-Jun-2015 16:25:53 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 49
+[13-Jun-2015 16:25:53 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 74
+[13-Jun-2015 16:26:27 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 49
+[13-Jun-2015 16:26:27 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 74
+[13-Jun-2015 16:29:03 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 49
+[13-Jun-2015 16:29:03 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 74
+[13-Jun-2015 16:29:41 America/Chicago] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home4/ilennox/public_html/projects/hippocampus/activity.php on line 74

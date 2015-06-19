@@ -68,7 +68,7 @@ if($member==0){
        
   
  
-    <h4 id="show-hidden-addpost"><i class="fa fa-plus-circle"></i> New Post</h4>
+    <h4 id="show-hidden-addpost"><i class="fa accent_green fa-plus-circle"></i> New Post</h4>
     <form class="hidden-addpost" style="display: none;" method="POST" enctype="multipart/form-data">  
          
         <textarea cols="80" rows="5" name="content" placeholder="Say Something..."></textarea><br/>
@@ -109,8 +109,21 @@ if($member==0){
         if($posts_num==0){ echo "<div class=\"center\">No Posts Yet!</div>";}
         foreach($posts_found as $post){
             $posted_by=find_user_by_id($post['user_id']);
-            echo "<div class=\"post_container\">
-            <span class=\"one_third user_panel\"><img src=\"".$posted_by['avatar']."\" alt=\"User avatar\" /> <br/>".$posted_by['username']."</span><span class=\"two_thirds\"><span class=\"right\">".$post['datetime']."</span> <br/><img src=\"".$post['image']."\" alt=\"Upload\" /><br/>".$post['content']."</span></div>";
+               if(!empty($post['image'])){
+                        $image="<img src=\"".$post['image']."\" />";
+                       }else{
+                        $image="";
+                       }
+            
+            
+            
+            echo "<div class=\"post_container\"> 
+            <span class=\"one_third user_panel\"><img src=\"".$posted_by['avatar']."\" alt=\"User avatar\" /> <br/>".$posted_by['username']."</span><span class=\"two_thirds\"><span class=\"right\">".$post['datetime']." </span> <br/>".$image."<br/>".$post['content']." <br/><br/>
+                <p># <i class=\"fa accent_green fa-heart\"></i> | <a href=\"post.php?id=".$post['id']."\"> #comments</a></p></span>
+                
+                
+               
+            </div>";
         }//end foreach post
         
         

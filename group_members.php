@@ -18,7 +18,7 @@
 //                }else{
 //                
 //                }
-                echo "</li><a href=\"profile.php?user=".$user_details['id']."\"><img src=\"".$user_details['avatar']."\" alt=\"User Avatar\" /> ".$user_details['username']."</a></li>";
+                echo "</li><a href=\"profile.php?user=".$user_details['id']."\"><img src=\"".$user_details['avatar']."\" alt=\"User Avatar\" /> ".$user_details['username']."</a></li><br/>";
             }   
             echo "</ul>";
         } //END GET GROUP MEMBERS
@@ -32,7 +32,8 @@
         $group_contacts= mysqli_query($connection, $get_contacts);
         if ($group_contacts) {
             echo "<ul>";
-            foreach($group_contacts as $contact){
+            $contacts=array(); 
+            foreach($group_contacts as $contact){ 
                 //GET USER THAT IS NOT YOU
                 if($_SESSION['user_id']==$contact['user1']){
                     $contact_id=$contact['user2'];
@@ -40,20 +41,32 @@
                     $contact_id=$contact['user1'];
                 }
                 $contact_details=find_user_by_id($contact_id);
- 
-                
+                array_push($contacts, $contact_details['id']);
+            }
+                ?>
+                    <form method="POST" action="index.php?invite">
+                    <?php
                 //SEE IF USER IS IN THIS GROUP, if not show user
-                
-                $get_invite .= "SELECT * FROM user_group WHERE group_id={$_GET['group']} AND user_id={$contact_details['id']}";
+            foreach($contacts as $to_invite){ 
+                $get_invite = "SELECT * FROM user_group WHERE group_id={$_GET['group']} AND user_id={$to_invite}";
                 $user_in_group= mysqli_query($connection, $get_invite);
-                if ($user_in_group) {
+                if ($user_in_group) { 
                     $num_user_row=mysqli_num_rows($user_in_group);
-                    if($num_user_row==0){
-                      echo "</li><a href=\"profile.php?user=".$contact_details['id']."\"><img src=\"".$contact_details['avatar']."\" alt=\"contact Avatar\" /> ".$contact_details['username']."</a> <a href=\"index.php?invite=".$contact_details['id']."&group=".$_GET['group']."\">INVITE</a></li>";
-                    }
-                }//end show user if they are not in this group
-              
+                    if($num_user_row==0){ 
+                        $user=find_user_by_id($to_invite);
+                        $username=$user['username'];
+                      echo "</li><input class=\"invite_box\" type=\"checkbox\" name=\"users[]\" value=\"".$to_invite."\" ><img src=\"".$contact_details['avatar']."\" alt=\"contact Avatar\" /> ".$username."</li><br/>";
+                    } 
+                }//end show user if they are not in this group 
             }  //end foreach contact 
+            
+               ?> 
+                     <input type="hidden" value="<?php echo $_GET['group']; ?>" name="group" >
+                     <input type="submit" value="Invite" name="invite">
+                     </form>
+                    <?php
+            
+            
             echo "</ul>";
         }else{
             echo "You have no contacts!";

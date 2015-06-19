@@ -74,23 +74,18 @@ if(isset($_POST['add_group'])){
         
     }//END CREATE POST IN GROUP
 }elseif(isset($_GET['invite'])){
-    //SEND INVITATION TO USER 
-    $user_id=$_GET['invite'];
-    $group_id=$_GET['group']; 
     
-    $new_invite .= "INSERT INTO invites ( user_id, group_id, invited_by) VALUES ( {$user_id}, {$group_id}, {$_SESSION['user_id']})";
-    $user_invited = mysqli_query($connection, $new_invite);
-
-    if ($user_invited) {
-      // Success 
-        $_SESSION["message"] = "User Invited!";
-        redirect_to("index.php?group=".$group_id);
-        
-    }else{
-        $_SESSION["message"] = "Could not invite this user!";
-        redirect_to("index.php?group=".$group_id);
-    }
+    //    //SEND INVITATION TO USERS CHECK BOXES
+    $user_array=$_POST['users'];
+    $group_id=$_POST['group']; 
     
+    
+    foreach($user_array as $user_id){ 
+        $new_invite = "INSERT INTO invites ( user_id, group_id, invited_by) VALUES ( {$user_id}, {$group_id}, {$_SESSION['user_id']})";
+        $user_invited = mysqli_query($connection, $new_invite); 
+    }//end foreach user in array, invite to group
+    
+    echo "Users Invited!"; 
 
 }
 
@@ -163,7 +158,7 @@ if(isset($_GET['group'])){
 
         }elseif(isset($_GET['decline'])){
         //DELETE USER FROM GROUP   
-            $group_id=$_GET['decline'];
+            $group_id=$_GET['group'];
             $remove_invite  = "DELETE FROM invites WHERE group_id = {$group_id} AND user_id={$_SESSION['user_id']} LIMIT 1";
             $invite_result = mysqli_query($connection, $remove_invite);
 
@@ -182,7 +177,7 @@ if(isset($_GET['group'])){
                     if ($alert_created) {
 
                            $_SESSION["message"] = "You declined ".$group_name.". You must be re-invited to join."; 
-                            redirect_to("index.php");
+                            redirect_to("activity.php");
                     }else{
                         $_SESSION["message"] = "You Left This group! Could not notify the admin";
                         redirect_to("index.php");
@@ -208,6 +203,11 @@ if(isset($_GET['group'])){
     
  
     
+}elseif(isset($_GET['loved'])){
+
+    //SELECT * FROM LOVED WHERE USER ID == YOU
+    echo "Showing posts you love";
+    
 }else{ ?>
 <!--       GET ALL GROUPS USER IS IN  -->
        
@@ -220,6 +220,8 @@ if(isset($_GET['group'])){
     </form>
     
        <?php
+    
+    echo "<a href=\"index.php?loved\"><i class=\"fa fa-heart\"></i> Posts You've Loved</a><br/><br/>";
 //GET ALL GROUPS USER IS IN
     $get_my_groups .= "SELECT * FROM user_group WHERE user_id={$_SESSION['user_id']}";
     $groups_found= mysqli_query($connection, $get_my_groups);
@@ -240,6 +242,8 @@ if(isset($_GET['group'])){
     }else{
         echo "You have no groups! Create one now! Then, You can invite members to join your group!";
     }//END FIND GROUPS USER IS IN
+    
+    
 }
 ?>
  
